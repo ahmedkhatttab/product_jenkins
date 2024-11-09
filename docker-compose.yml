@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  product-service:
+    image: akhatab/product-service:1.0.0
+    container_name: product-service-c
+    ports:
+      - "8081:8081"
+    networks:
+      - microservice-nw
+    depends_on:
+    - postgres-service
+
+  postgres-service:
+    image: postgres:12.20-bullseye
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: product_db
+    ports:
+      - "5432:5432"
+    networks:
+      - microservice-nw
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  microservice-nw:
+
+volumes:
+  pgdata:
+
